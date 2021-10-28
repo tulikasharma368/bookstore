@@ -1,0 +1,59 @@
+.bookstoreicon {
+  display: flex;
+  p {
+    margin: 0%;
+    margin-left: 8px;
+    font-size: 23px;
+  }
+}
+
+.css-1t29gy6-MuiToolbar-root {
+  justify-content: center !important;
+}
+
+.shoppingcart {
+  margin-left: 22%;
+  display: flex;
+  p {
+    margin: 0%;
+    margin-right: 10px;
+  }
+}
+
+.css-1t29gy6-MuiToolbar-root {
+  padding-right: 0% !important;
+}
+
+.css-96uuyl {
+  margin-left: 60px !important;
+}
+
+// appbar
+.css-11b3ww9-MuiPaper-root-MuiAppBar-root {
+  background-color: #a03037 !important;
+}
+
+// search placeholder text
+.css-rzandp-MuiInputBase-root .MuiInputBase-input {
+  color: gray !important;
+}
+
+// searchicon
+.css-1iz4iln {
+  color: gray !important;
+}
+
+// searchbox
+.css-96uuyl {
+  background-color: #fff !important;
+}
+
+// cart
+.css-1db085k-MuiSvgIcon-root {
+  color: #fff !important;
+}
+
+.css-to4x1n-MuiBadge-badge {
+  background-color: #fff !important;
+  color: #a03037 !important;
+}

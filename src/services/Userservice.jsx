@@ -12,6 +12,11 @@ class Userservice {
     let response = obj.postMeth(`${baseurl}bookstore_user/login`, data);
     return response;
   }
+
+  Addbooks() {
+    let response = obj.getMeth(`${baseurl}bookstore_user/get/book`);
+    return response;
+  }
 }
 
 export default Userservice;

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import TextField from "@mui/material/TextField";
-import "../../pages/loginsignup.scss";
+import "../loginsignup/loginsignup.scss";
 import { Snackbar, IconButton } from "@mui/material";
 import Userservices from "../../services/Userservice";
 const obj = new Userservices();

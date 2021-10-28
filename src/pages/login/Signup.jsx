@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import TextField from "@mui/material/TextField";
-import "../../pages/loginsignup.scss";
+import "../loginsignup/loginsignup.scss";
 import { Snackbar, IconButton } from "@mui/material";
 import Userservices from "../../services/Userservice";
 const obj = new Userservices();
@@ -85,7 +85,7 @@ class Signup extends Component {
   };
   render() {
     return (
-      <div className="loginsepdiv">
+      <div className="loginsepdiv ldiv">
         <p>Full Name</p>
         <TextField
           name="name"
