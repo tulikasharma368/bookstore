@@ -5,12 +5,20 @@ import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+
+import { Link, MemoryRouter, Route } from "react-router-dom";
+import Pagination from "@mui/material/Pagination";
+import PaginationItem from "@mui/material/PaginationItem";
 import Userservices from "../../services/Userservice";
 let obj = new Userservices();
 
 const Books = () => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [booksdata, setbooksdata] = React.useState([]);
+  const [pagenumber, setpagenumber] = React.useState(0);
+
+  const booksperpage = 8;
+  const pagesVisited = pagenumber * booksperpage;
 
   const open = Boolean(anchorEl);
 
@@ -36,25 +44,38 @@ const Books = () => {
       });
   };
 
-  const displaybooks = booksdata.map((val) => (
-    <div className="individualbook">
-      <div className="bookimg">
-        <img src={bookone} alt="" />
+  const displaybooks = booksdata
+    .slice(pagesVisited, pagesVisited + booksperpage)
+    .map((val) => (
+      <div className="individualbook">
+        <div className="bookimg">
+          <img src={bookone} alt="" />
+        </div>
+        <div className="bookcontent">
+          <p className="bookname">{val.bookName}</p>
+          <p className="bookauthor">by {val.author}</p>
+          <p className="bookprice">Rs. {val.price}</p>
+        </div>
+        <div className="bookbuttons">
+          <button className="atb">Add to bag</button>
+          <button className="wl">Wishlist</button>
+        </div>
       </div>
-      <div className="bookcontent">
-        <p className="bookname">{val.bookName}</p>
-        <p className="bookauthor">by {val.author}</p>
-        <p className="bookprice">Rs. {val.price}</p>
-      </div>
-      <div className="bookbuttons">
-        <button className="atb">Add to bag</button>
-        <button className="wl">Wishlist</button>
-      </div>
-    </div>
-  ));
+    ));
 
+  const pageCount = Math.ceil(booksdata.length / booksperpage);
   //   console.log(booksdata);
 
+  const changePage = (e) => {
+    setpagenumber(e.target.innerText);
+    console.log(e.target.innerText);
+    console.log(pagenumber);
+  };
+
+  //   const changePage = ({ selected }) => {
+  //     setpagenumber(selected);
+  //     console.log(pagenumber);
+  //   };
   return (
     <div className="booksmain">
       <div className="innermaindiv">
@@ -92,6 +113,34 @@ const Books = () => {
       </div>
       <div className="booksgrid">
         <div className="allbooks">{displaybooks}</div>
+      </div>
+      {/* pagination: */}
+      <div className="pagination">
+        <MemoryRouter initialEntries={["/inbox"]} initialIndex={0}>
+          <Route>
+            {({ location }) => {
+              const query = new URLSearchParams(location.search);
+              const page = parseInt(query.get("page") || "1", 10);
+              return (
+                <Pagination
+                  //   onChangePage={changePage}
+                  onClick={(e) => changePage(e)}
+                  page={page}
+                  count={10}
+                  renderItem={(item) => (
+                    <PaginationItem
+                      component={Link}
+                      to={`/inbox${
+                        item.page === 1 ? "" : `?page=${item.page}`
+                      }`}
+                      {...item}
+                    />
+                  )}
+                />
+              );
+            }}
+          </Route>
+        </MemoryRouter>
       </div>
     </div>
   );
