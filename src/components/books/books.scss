@@ -96,12 +96,12 @@
 .bookbuttons {
   padding: 0px 0px 20px 20px;
   margin-top: -10px;
-  cursor: pointer;
   button {
     margin-top: 10px;
     font-size: 15px;
     padding: 8px;
     border-radius: 2px;
+    cursor: pointer;
   }
   .atb {
     background-color: #a03037;
@@ -186,5 +186,11 @@
     .innermaindiv {
       padding-left: 0px;
     }
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  .css-yuzg60-MuiButtonBase-root-MuiPaginationItem-root {
+    margin: 0% !important;
   }
 }

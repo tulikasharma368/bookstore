@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import TextField from "@mui/material/TextField";
 import "../loginsignup/loginsignup.scss";
 import { Snackbar, IconButton } from "@mui/material";
+import { useHistory } from "react-router-dom";
 import Userservices from "../../services/Userservice";
 const obj = new Userservices();
 
@@ -48,10 +49,15 @@ class Login extends Component {
         .Login(signupdata)
         .then((response) => {
           console.log(response);
+          localStorage.setItem("token", response.data.result.accessToken);
+
           this.setState({
             snackbaropen: true,
             snackbarmsg: "Signin Successfull!",
           });
+          var timer = setTimeout(function () {
+            window.location = "/home";
+          }, 500);
         })
         .catch((error) => {
           console.log(error);

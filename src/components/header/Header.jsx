@@ -5,12 +5,10 @@ import { styled, alpha } from "@mui/material/styles";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
-import IconButton from "@mui/material/IconButton";
 import InputBase from "@mui/material/InputBase";
 import Badge from "@mui/material/Badge";
 import SearchIcon from "@mui/icons-material/Search";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
-// import { gray } from "@mui/material/colors";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -53,11 +51,22 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function PrimarySearchAppBar() {
+  const opencart = () => {
+    var timer = setTimeout(function () {
+      window.location = "/cart";
+    }, 500);
+  };
+
+  const openbooks = () => {
+    var timer = setTimeout(function () {
+      window.location = "/home";
+    }, 500);
+  };
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="fixed">
         <Toolbar>
-          <div className="bookstoreicon">
+          <div className="bookstoreicon" onClick={openbooks}>
             <img src={education} alt="" />
             <p>Bookstore</p>
           </div>
@@ -73,8 +82,11 @@ export default function PrimarySearchAppBar() {
           </Search>
           <div className="shoppingcart">
             <p>Cart</p>
-            <Badge badgeContent={4} color="error">
-              <ShoppingCartOutlinedIcon color="disabled" />
+            <Badge badgeContent={4} color="error" onClick={opencart}>
+              <ShoppingCartOutlinedIcon
+                color="disabled"
+                style={{ cursor: "pointer" }}
+              />
             </Badge>
           </div>
         </Toolbar>

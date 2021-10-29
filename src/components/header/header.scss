@@ -1,5 +1,6 @@
 .bookstoreicon {
   display: flex;
+  cursor: pointer;
   p {
     margin: 0%;
     margin-left: 8px;
@@ -56,4 +57,36 @@
 .css-to4x1n-MuiBadge-badge {
   background-color: #fff !important;
   color: #a03037 !important;
+}
+
+@media only screen and (max-width: 800px) {
+  .shoppingcart {
+    margin-left: 10%;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .bookstoreicon {
+    img {
+      width: 25px;
+      height: 25px;
+      margin-top: 2px;
+    }
+    p {
+      margin: 0%;
+      margin-left: 8px;
+      font-size: 20px;
+    }
+  }
+
+  .shoppingcart {
+    margin-left: 0%;
+    margin-right: 25px;
+    margin-top: 10px;
+  }
+
+  .css-96uuyl {
+    margin-left: 20px !important;
+    margin-right: 10px !important;
+  }
 }

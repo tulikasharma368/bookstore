@@ -5,7 +5,6 @@ import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-
 import { Link, MemoryRouter, Route } from "react-router-dom";
 import Pagination from "@mui/material/Pagination";
 import PaginationItem from "@mui/material/PaginationItem";
@@ -82,7 +81,7 @@ const Books = () => {
         <div className="booksnum">
           <div>
             <span className="books">Books</span>
-            <span className="num">(128 books)</span>
+            <span className="num">({booksdata.length})</span>
           </div>
           <div className="menudiv">
             <Button
@@ -120,13 +119,15 @@ const Books = () => {
           <Route>
             {({ location }) => {
               const query = new URLSearchParams(location.search);
-              const page = parseInt(query.get("page") || "1", 10);
+              const page = parseInt(query.get("page") || "1", { pageCount });
               return (
                 <Pagination
-                  //   onChangePage={changePage}
+                  //onChangePage={changePage}
                   onClick={(e) => changePage(e)}
+                  siblingCount={2}
+                  boundaryCount={0}
                   page={page}
-                  count={10}
+                  count={pageCount}
                   renderItem={(item) => (
                     <PaginationItem
                       component={Link}
