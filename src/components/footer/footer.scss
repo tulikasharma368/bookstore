@@ -1,0 +1,19 @@
+.footerdiv {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  background-color: #2e1d1e;
+}
+
+.footercontent {
+  display: flex;
+  width: 80%;
+  font-size: 13px;
+  color: #fff;
+}
+
+@media only screen and (max-width: 600px) {
+  .footercontent {
+    text-align: center;
+  }
+}
