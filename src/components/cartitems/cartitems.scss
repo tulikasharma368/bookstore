@@ -100,6 +100,7 @@
   height: 35px;
   border: 2px;
   border-radius: 2px;
+  cursor: pointer;
 }
 
 .outercustdets {
@@ -110,7 +111,7 @@
 }
 
 .innercustdets {
-  display: flex;
+  //   display: flex;
   width: 80%;
 }
 
@@ -120,4 +121,39 @@
   border: 1px lightgray solid;
   border-radius: 1px;
   padding-top: 20px;
+}
+
+.detsform {
+  //   border: 1px solid lightgray;
+  padding: 20px 0px;
+  width: 65%;
+  margin-top: 20px;
+  height: fit-content;
+}
+
+.detsfields {
+  display: flex;
+  gap: 20px;
+  //   align-content: space-between;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.addressfield {
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+#tf {
+  width: 450px !important;
+  height: 30px !important;
+}
+
+.radiobuttons {
+  display: flex;
+  width: 50%;
+  justify-content: space-between;
+}
+input[type="radio"]:checked:after {
+  background: green;
 }
