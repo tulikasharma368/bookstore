@@ -147,7 +147,7 @@ const Cartitems = () => {
               style={{ margin: "0%", fontWeight: "600", fontSize: "20px" }}
             >
               <p>Order Summary</p>
-              <div className="book">
+              {/* <div className="book">
                 <div>
                   <img src={book1} alt="" />
                 </div>
@@ -156,7 +156,8 @@ const Cartitems = () => {
                   <p className="authbook">author</p>
                   <p className="pricebook">price</p>
                 </div>
-              </div>
+              </div> */}
+              {cartItems}
               <div className="btnactive">
                 <button className="placeorder" onClick={continueorder}>
                   CHECKOUT

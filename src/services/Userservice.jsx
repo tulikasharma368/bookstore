@@ -40,6 +40,15 @@ class Userservice {
     );
     return response;
   }
+
+  Putuserdetails(data) {
+    let response = obj.putMeth(
+      `${baseurl}bookstore_user/edit_user`,
+      data,
+      headerconfig
+    );
+    return response;
+  }
 }
 
 export default Userservice;
