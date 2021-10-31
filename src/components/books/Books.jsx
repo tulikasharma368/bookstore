@@ -15,8 +15,9 @@ const Books = () => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [booksdata, setbooksdata] = React.useState([]);
   const [pagenumber, setpagenumber] = React.useState(0);
+  const [sort, setsort] = React.useState("Sort By Relevance");
 
-  const booksperpage = 8;
+  const booksperpage = 15;
   const pagesVisited = pagenumber * booksperpage;
 
   const open = Boolean(anchorEl);
@@ -28,15 +29,58 @@ const Books = () => {
     setAnchorEl(null);
   };
 
+  // Array.prototype.sortBy = function (p) {
+  //   return this.slice(0).sort(function (a, b) {
+  //     return a[p] > b[p] ? 1 : a[p] < b[p] ? -1 : 0;
+  //   });
+  // };
+  const handlehtl = () => {
+    setsort("Price: High to Low");
+    let abc = booksdata.sort((a, b) => (a.price < b.price && 1) || -1);
+    console.log(abc);
+    setbooksdata(abc);
+    handleClose();
+  };
+
+  const handlelth = () => {
+    setsort("Price: Low to High");
+    let abc = booksdata.sort((a, b) => (a.price > b.price && 1) || -1);
+    console.log(abc);
+    setbooksdata(abc);
+    handleClose();
+  };
+
+  const handlena = () => {
+    setsort("Newest Arrivals");
+    let abc = booksdata.sort((a, b) =>
+      a.description > b.description ? 1 : b.description > a.description ? -1 : 0
+    );
+    // console.log(abc);
+    setbooksdata(abc);
+    handleClose();
+  };
+
   React.useEffect(() => {
     allbooks();
   }, []);
+
   const allbooks = () => {
     obj
       .Addbooks()
       .then((response) => {
         console.log(response.data.result);
         setbooksdata(response.data.result);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const addtocart = (vals) => {
+    obj
+      .Addtocart(vals._id)
+      .then((response) => {
+        console.log(response);
       })
       .catch((error) => {
         console.log(error);
@@ -56,7 +100,9 @@ const Books = () => {
           <p className="bookprice">Rs. {val.price}</p>
         </div>
         <div className="bookbuttons">
-          <button className="atb">Add to bag</button>
+          <button className="atb" onClick={() => addtocart(val)}>
+            Add to bag
+          </button>
           <button className="wl">Wishlist</button>
         </div>
       </div>
@@ -91,7 +137,7 @@ const Books = () => {
               aria-expanded={open ? "true" : undefined}
               onClick={handleClick}
             >
-              Sort by relevance <KeyboardArrowDownIcon />
+              {sort} <KeyboardArrowDownIcon />
             </Button>
             <Menu
               id="basic-menu"
@@ -102,9 +148,9 @@ const Books = () => {
                 "aria-labelledby": "basic-button",
               }}
             >
-              <MenuItem onClick={handleClose}>Price: High to low</MenuItem>
-              <MenuItem onClick={handleClose}>Price: Low to high</MenuItem>
-              <MenuItem onClick={handleClose}>Newest arivals</MenuItem>
+              <MenuItem onClick={handlehtl}>Price: High To Low</MenuItem>
+              <MenuItem onClick={handlelth}>Price: Low To High</MenuItem>
+              <MenuItem onClick={handlena}>Newest Arrivals</MenuItem>
             </Menu>
           </div>
         </div>

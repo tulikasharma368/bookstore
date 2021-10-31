@@ -9,6 +9,8 @@ import InputBase from "@mui/material/InputBase";
 import Badge from "@mui/material/Badge";
 import SearchIcon from "@mui/icons-material/Search";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
+import Userservices from "../../services/Userservice";
+let obj = new Userservices();
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -50,7 +52,28 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export default function PrimarySearchAppBar() {
+export default function Header(props) {
+  const [cartarr, setcartarr] = React.useState([]);
+
+  React.useEffect(() => {
+    cartitems();
+  }, []);
+
+  const cartitems = () => {
+    obj
+      .GetCart()
+      .then((response) => {
+        console.log(response.data.result);
+        setcartarr(response.data.result);
+        if (props.page == "cart") {
+          props.items(response.data.result);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   const opencart = () => {
     var timer = setTimeout(function () {
       window.location = "/cart";
@@ -82,7 +105,11 @@ export default function PrimarySearchAppBar() {
           </Search>
           <div className="shoppingcart">
             <p>Cart</p>
-            <Badge badgeContent={4} color="error" onClick={opencart}>
+            <Badge
+              badgeContent={cartarr.length}
+              color="error"
+              onClick={opencart}
+            >
               <ShoppingCartOutlinedIcon
                 color="disabled"
                 style={{ cursor: "pointer" }}

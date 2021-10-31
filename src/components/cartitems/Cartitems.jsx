@@ -2,14 +2,18 @@ import React from "react";
 import "./cartitems.scss";
 import book1 from "../../assets/books/book1.png";
 import TextField from "@mui/material/TextField";
+import { CartContext } from "../../pages/cart/Cart";
 
 const Cartitems = () => {
+  const cart = React.useContext(CartContext);
   const [countervalue, setcountervalue] = React.useState(0);
   const [orderbutton, setorderbutton] = React.useState(true);
   const [continuebutton, setcontinuebutton] = React.useState(true);
   const [custdetails, setcustdetails] = React.useState(false);
   const [ordersummary, setordersummary] = React.useState(false);
+  const [cartarr, setcartarr] = React.useState(["a"]);
 
+  // setcartarr(cart);
   const placeorder = () => {
     setorderbutton(false);
     setcustdetails(true);
@@ -18,6 +22,15 @@ const Cartitems = () => {
   const continueorder = () => {
     setcontinuebutton(false);
     setordersummary(true);
+  };
+
+  const minus = () => {
+    if (countervalue != 0) {
+      setcountervalue(countervalue - 1);
+    }
+  };
+  const plus = () => {
+    setcountervalue(countervalue + 1);
   };
 
   const Placeorderbutton = () => {
@@ -156,42 +169,40 @@ const Cartitems = () => {
     }
   };
 
-  const minus = () => {
-    if (countervalue != 0) {
-      setcountervalue(countervalue - 1);
-    }
-  };
-  const plus = () => {
-    setcountervalue(countervalue + 1);
-  };
+  console.log(cart);
+
+  const cartItems = cart.map((val) => (
+    <div className="book">
+      <div>
+        <img src={book1} alt="" />
+      </div>
+      <div className="bookcon">
+        <p className="namebook">{val.product_id.description}</p>
+        <p className="authbook">by {val.product_id.author}</p>
+        <p className="pricebook">Rs {val.product_id.price}</p>
+        <div className="counterextra">
+          <div className="counter">
+            <div className="minus" onClick={minus}>
+              -
+            </div>
+            <div className="countval">{countervalue}</div>
+            <div className="plus" onClick={plus}>
+              +
+            </div>
+          </div>
+          <p>Remove</p>
+        </div>
+      </div>
+    </div>
+  ));
+
   return (
     <div>
       <div className="allcartitems">
         <div className="extra">
           <div className="mycart">
             <p>My Cart(2)</p>
-            <div className="book">
-              <div>
-                <img src={book1} alt="" />
-              </div>
-              <div className="bookcon">
-                <p className="namebook">Book name</p>
-                <p className="authbook">author</p>
-                <p className="pricebook">price</p>
-                <div className="counterextra">
-                  <div className="counter">
-                    <div className="minus" onClick={minus}>
-                      -
-                    </div>
-                    <div className="countval">{countervalue}</div>
-                    <div className="plus" onClick={plus}>
-                      +
-                    </div>
-                  </div>
-                  <p>Remove</p>
-                </div>
-              </div>
-            </div>
+            {cartItems}
             <Placeorderbutton />
           </div>
         </div>
