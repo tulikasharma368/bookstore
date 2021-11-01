@@ -50,6 +50,7 @@ class Login extends Component {
         .then((response) => {
           console.log(response);
           localStorage.setItem("token", response.data.result.accessToken);
+          localStorage.setItem("email", this.state.email);
 
           this.setState({
             snackbaropen: true,

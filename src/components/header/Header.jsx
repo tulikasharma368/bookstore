@@ -59,6 +59,10 @@ export default function Header(props) {
     cartitems();
   }, []);
 
+  // React.useEffect(() => {
+  //   cartitems();
+  // });
+
   const cartitems = () => {
     obj
       .GetCart()

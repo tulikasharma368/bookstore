@@ -41,9 +41,51 @@ class Userservice {
     return response;
   }
 
+  Clearcart(id) {
+    let response = obj.deleteMeth(
+      `${baseurl}bookstore_user/remove_cart_item/${id}`,
+      headerconfig
+    );
+    return response;
+  }
+
   Putuserdetails(data) {
     let response = obj.putMeth(
       `${baseurl}bookstore_user/edit_user`,
+      data,
+      headerconfig
+    );
+    return response;
+  }
+
+  Addtowishlist(id) {
+    let response = obj.postMeth(
+      `${baseurl}bookstore_user/add_wish_list/${id}`,
+      id,
+      headerconfig
+    );
+    return response;
+  }
+
+  Getwishlist() {
+    let response = obj.getMeth(
+      `${baseurl}bookstore_user/get_wishlist_items`,
+      headerconfig
+    );
+    return response;
+  }
+
+  Removefromwl(id) {
+    let response = obj.deleteMeth(
+      `${baseurl}bookstore_user/remove_wishlist_item/${id}`,
+      headerconfig
+    );
+    return response;
+  }
+
+  Addorder(data) {
+    let response = obj.postMeth(
+      `${baseurl}bookstore_user/add/order`,
       data,
       headerconfig
     );

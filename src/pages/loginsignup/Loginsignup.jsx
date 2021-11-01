@@ -25,7 +25,7 @@ const Loginsignup = () => {
 
           {/* <Router> */}
           <Switch>
-            <Route exact path="/signup" component={Signup} />
+            <Route path="/signup" component={Signup} />
             <Route exact path="/" component={Login} />
           </Switch>
           {/* </Router> */}

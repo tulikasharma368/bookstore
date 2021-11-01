@@ -3,6 +3,8 @@ import "./cartitems.scss";
 import book1 from "../../assets/books/book1.png";
 import TextField from "@mui/material/TextField";
 import { CartContext } from "../../pages/cart/Cart";
+import Userservices from "../../services/Userservice";
+let obj = new Userservices();
 
 const Cartitems = () => {
   const cart = React.useContext(CartContext);
@@ -11,17 +13,88 @@ const Cartitems = () => {
   const [continuebutton, setcontinuebutton] = React.useState(true);
   const [custdetails, setcustdetails] = React.useState(false);
   const [ordersummary, setordersummary] = React.useState(false);
-  const [cartarr, setcartarr] = React.useState(["a"]);
-
-  // setcartarr(cart);
+  const [details, setDetails] = React.useState({
+    name: "",
+    phonenumber: "",
+    address: "",
+    city: "",
+    state: "",
+    pin: "",
+    locality: "",
+  });
+  console.log(cart);
   const placeorder = () => {
     setorderbutton(false);
     setcustdetails(true);
   };
 
   const continueorder = () => {
+    localStorage.setItem("phone", details.phonenumber);
+    localStorage.setItem(
+      "address",
+      details.address + " " + details.locality,
+      +" " + details.pin
+    );
+    let userdets = {
+      addressType: "Home",
+      fullAddress: `${details.address},${details.locality},${details.pin}`,
+      city: details.city,
+      state: details.state,
+    };
+    console.log(userdets);
+    obj
+      .Putuserdetails(userdets)
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
     setcontinuebutton(false);
     setordersummary(true);
+  };
+
+  const checkout = () => {
+    let orderdetails = [];
+
+    cart.map((val) => {
+      orderdetails.push({
+        product_id: val.product_id._id,
+        product_name: val.product_id.bookName,
+        product_quantity: val.quantityToBuy,
+        product_price: val.product_id.price,
+      });
+    });
+
+    obj
+      .Addorder(orderdetails)
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+    cart.map((val) => {
+      removecart(val._id);
+      console.log(val._id);
+    });
+
+    var timer = setTimeout(function () {
+      window.location = "/orderplaced";
+    }, 500);
+  };
+
+  const removecart = (id) => {
+    obj
+      .Clearcart(id)
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   const minus = () => {
@@ -31,6 +104,16 @@ const Cartitems = () => {
   };
   const plus = () => {
     setcountervalue(countervalue + 1);
+  };
+
+  const userinput = (e) => {
+    // console.log(e);
+
+    // setDetails({ ...details, [e.target.name]: e.target.value });
+    setDetails((prevState) => ({
+      ...prevState,
+      [e.target.name]: e.target.value,
+    }));
   };
 
   const Placeorderbutton = () => {
@@ -52,7 +135,7 @@ const Cartitems = () => {
       return (
         <div className="btnactive">
           <button className="placeorder" onClick={continueorder}>
-            PLACE ORDER
+            CONTINUE
           </button>
         </div>
       );
@@ -80,13 +163,43 @@ const Cartitems = () => {
               </p>
               <div className="detsform">
                 <div className="detsfields">
-                  <TextField id="tf" label="Name" variant="outlined" />
-                  <TextField id="tf" label="Phone Number" variant="outlined" />
+                  <TextField
+                    id="tf"
+                    label="Name"
+                    variant="outlined"
+                    name="name"
+                    value={details.name}
+                    onChange={(e) => userinput(e)}
+                  />
+                  <TextField
+                    id="tf"
+                    label="Phone Number"
+                    variant="outlined"
+                    name="phonenumber"
+                    value={details.phonenumber}
+                    onChange={(e) => userinput(e)}
+                  />
                 </div>
+
                 <div className="detsfields">
-                  <TextField id="tf" label="Pincode" variant="outlined" />
-                  <TextField id="tf" label="Locality" variant="outlined" />
+                  <TextField
+                    id="tf"
+                    label="Pincode"
+                    variant="outlined"
+                    name="pin"
+                    value={details.pin}
+                    onChange={(e) => userinput(e)}
+                  />
+                  <TextField
+                    id="tf"
+                    label="Locality"
+                    variant="outlined"
+                    name="locality"
+                    value={details.locality}
+                    onChange={(e) => userinput(e)}
+                  />
                 </div>
+
                 <div className="addressfield">
                   <TextField
                     id="outlined-basic"
@@ -95,11 +208,28 @@ const Cartitems = () => {
                     multiline
                     rows={2}
                     fullWidth
+                    name="address"
+                    value={details.address}
+                    onChange={(e) => userinput(e)}
                   />
                 </div>
                 <div className="detsfields">
-                  <TextField id="tf" label="city/town" variant="outlined" />
-                  <TextField id="tf" label="Landmark" variant="outlined" />
+                  <TextField
+                    id="tf"
+                    label="city/town"
+                    variant="outlined"
+                    name="city"
+                    value={details.city}
+                    onChange={(e) => userinput(e)}
+                  />
+                  <TextField
+                    id="tf"
+                    label="state"
+                    variant="outlined"
+                    name="state"
+                    value={details.state}
+                    onChange={(e) => userinput(e)}
+                  />
                 </div>
               </div>
               <div>
@@ -107,15 +237,15 @@ const Cartitems = () => {
                 <div>
                   <form className="radiobuttons">
                     <label>
-                      <input type="radio" checked="unchecked" name="radio" />
+                      <input type="radio" name="radio" />
                       <span>Home</span>
                     </label>
                     <label>
-                      <input type="radio" checked="checked" name="radio" />
+                      <input type="radio" name="radio" />
                       <span>Work</span>
                     </label>
                     <label>
-                      <input type="radio" checked="unchecked" name="radio" />
+                      <input type="radio" name="radio" />
                       <span>Other</span>
                     </label>
                   </form>
@@ -147,21 +277,9 @@ const Cartitems = () => {
               style={{ margin: "0%", fontWeight: "600", fontSize: "20px" }}
             >
               <p>Order Summary</p>
-              {/* <div className="book">
-                <div>
-                  <img src={book1} alt="" />
-                </div>
-                <div className="bookcon">
-                  <p className="namebook">Book name</p>
-                  <p className="authbook">author</p>
-                  <p className="pricebook">price</p>
-                </div>
-              </div> */}
               {cartItems}
-              <div className="btnactive">
-                <button className="placeorder" onClick={continueorder}>
-                  CHECKOUT
-                </button>
+              <div className="btnactive" onClick={checkout}>
+                <button className="placeorder">CHECKOUT</button>
               </div>
             </div>
           </div>
@@ -170,15 +288,13 @@ const Cartitems = () => {
     }
   };
 
-  console.log(cart);
-
   const cartItems = cart.map((val) => (
     <div className="book">
       <div>
         <img src={book1} alt="" />
       </div>
       <div className="bookcon">
-        <p className="namebook">{val.product_id.description}</p>
+        <p className="namebook">{val.product_id.bookName}</p>
         <p className="authbook">by {val.product_id.author}</p>
         <p className="pricebook">Rs {val.product_id.price}</p>
         <div className="counterextra">
@@ -191,18 +307,18 @@ const Cartitems = () => {
               +
             </div>
           </div>
-          <p>Remove</p>
+          <p onClick={() => removecart(val._id)}>Remove</p>
         </div>
       </div>
     </div>
   ));
-
+  console.log(details);
   return (
     <div>
       <div className="allcartitems">
         <div className="extra">
           <div className="mycart">
-            <p>My Cart(2)</p>
+            <p>My Cart({cart.length})</p>
             {cartItems}
             <Placeorderbutton />
           </div>

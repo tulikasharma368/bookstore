@@ -16,6 +16,7 @@ const Books = () => {
   const [booksdata, setbooksdata] = React.useState([]);
   const [pagenumber, setpagenumber] = React.useState(0);
   const [sort, setsort] = React.useState("Sort By Relevance");
+  const [showcartbuttons, setshowcartbuttons] = React.useState(true);
 
   const booksperpage = 15;
   const pagesVisited = pagenumber * booksperpage;
@@ -53,7 +54,7 @@ const Books = () => {
   const handlena = () => {
     setsort("Newest Arrivals");
     let abc = booksdata.sort((a, b) =>
-      a.description > b.description ? 1 : b.description > a.description ? -1 : 0
+      a.bookName > b.bookName ? 1 : b.bookName > a.bookName ? -1 : 0
     );
     // console.log(abc);
     setbooksdata(abc);
@@ -81,10 +82,43 @@ const Books = () => {
       .Addtocart(vals._id)
       .then((response) => {
         console.log(response);
+        setshowcartbuttons(false);
       })
       .catch((error) => {
         console.log(error);
       });
+  };
+
+  const addtowishlist = (vals) => {
+    console.log("wish");
+    obj
+      .Addtowishlist(vals._id)
+      .then((response) => {
+        console.log(response);
+        setshowcartbuttons(false);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const Cartbuttons = (props) => {
+    return (
+      <div className="bookbuttons">
+        {showcartbuttons == true ? (
+          <>
+            <button className="atb" onClick={() => addtocart(props.value)}>
+              Add to bag
+            </button>
+            <button className="wl" onClick={() => addtowishlist(props.value)}>
+              Wishlist
+            </button>
+          </>
+        ) : (
+          <button className="wl">Added to bag</button>
+        )}
+      </div>
+    );
   };
 
   const displaybooks = booksdata
@@ -99,12 +133,13 @@ const Books = () => {
           <p className="bookauthor">by {val.author}</p>
           <p className="bookprice">Rs. {val.price}</p>
         </div>
-        <div className="bookbuttons">
+        {/* <div className="bookbuttons">
           <button className="atb" onClick={() => addtocart(val)}>
             Add to bag
           </button>
           <button className="wl">Wishlist</button>
-        </div>
+        </div> */}
+        <Cartbuttons value={val} />
       </div>
     ));
 

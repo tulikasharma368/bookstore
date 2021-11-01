@@ -9,8 +9,14 @@ class Axiosservice{
     }
 
     putMeth(url,data,header=false){
-        return Axios.get(url,data,header);
+        return Axios.put(url,data,header);
+    }
+
+    deleteMeth(url,header=false){
+        return Axios.delete(url, header);
+
     }
 }
+
 
 export default Axiosservice;
